@@ -1,0 +1,70 @@
+import java.util.*;
+public class SweetMultiplier{
+ public static void main(String[] args){
+ Scanner myscanner = new Scanner(System.in);
+ int first = myscanner.nextInt();
+ int second = myscanner.nextInt();
+ int min=Math.min(first,second);
+ int max=Math.max(first,second);
+ int[] array = {max, min};
+ int[] minarray = {min};
+
+ if(check(array)||!check(minarray)){
+//check if the array of both numbers is possible, and the min number
+itself is possible
+ System.out.println(max);
+ }else{
+ System.out.println(min);
+ }
+ }
+
+
+ public static boolean check(int[] array){
+//this method returns true or false depending on whether the array
+of numbers is possible or not
+ for(int i=0;i<array.length;i++){
+ for(int j=2;j<Math.sqrt(array[i]);j++){
+//get all the factors of all the numbers in the array
+ if(array[i]%j==0){
+ int[] newarray = new int[array.length+1];
+ for(int k=0;k<array.length;k++){
+ newarray[k]=array[k];
+ }
+//if a factor is found then make a new array with that factor in it
+ newarray[i]=j;
+ newarray[array.length]=array[i]/j;
+ boolean unique=true;
+ for(int m=0;m<newarray.length;m++){
+ for(int n=0;n<newarray.length;n++){
+ if(newarray[n]==newarray[m]&&n!=m){
+ unique=false;
+ }
+ }
+ }
+//check that this new factor is not already used in the array - it
+needs to be unique
+ if(unique==true){
+ if(check(newarray)==true){
+ return true;
+//if the new number is unique then call the method recursively on
+the new longer array, and if it finds that it's possible, then
+return "possible"
+ }
+ }
+ }
+ }
+ }
+//if you've got this far, then none of the numbers can be broken
+down any further
+ for(int i=0;i<array.length;i++){
+ if(array[i]>100){
+ return false;
+//if any of those numbers is over 100, then that's impossible,
+return "impossible"
+ }
+ }
+ return true;
+//if you get this far, then the array has been broken down into a
+set of unique numbers all under 100, so it's "possible"
+ }
+}
