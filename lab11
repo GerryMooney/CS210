@@ -1,0 +1,26 @@
+import java.util.Random;
+public class BitcoinRoll {
+
+ private static Random random;
+ public static void main(String[] args) {
+ boolean mined = false;
+ int numSixes = 0;
+ int rollsBeforeSix = 0;
+ int lastSix = 0;
+ random = new Random(System.currentTimeMillis());
+ for (int trialNum = 0; trialNum < 1000000; trialNum++) {
+ int dieResult = random.nextInt(6) + 1;
+ if (trialNum % 200 == 0) mined = true;
+ if (dieResult == 6) {
+ if (mined) {
+ numSixes += 1;
+rollsBeforeSix += trialNum - lastSix;
+ mined = false;
+ }
+ lastSix = trialNum;
+ }
+ }
+ double averageRolls = ((double) rollsBeforeSix) / numSixes;
+ System.out.println(averageRolls);
+ }
+}
